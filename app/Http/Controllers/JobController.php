@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Requests\JobRequest;
+use App\Http\Requests\StoreJobRequest;
 use App\Models\Employer;
 use App\Models\Job;
 use Illuminate\Http\Request;
@@ -27,18 +30,9 @@ class JobController extends Controller
 
 
 
-    public function store(Request $request)
+    public function store(StoreJobRequest $request)
 {
-    $validated = $request->validate([
-        'employer.name' => 'required|string|max:255',
-        'employer.contactEmail' => 'required|email',
-        'employer.contactPhone' => 'required|string|max:255',
-        'job.title' => 'required|string|max:255',
-        'job.type' => 'required|string|max:255',
-        'job.description' => 'required|string',
-        'job.location' => 'required|string|max:255',
-        'job.salary' => 'nullable|string|max:255',
-    ]);
+    $validated = $request->validated();
 
     $job = DB::transaction(function () use ($validated) {
         
@@ -66,18 +60,9 @@ class JobController extends Controller
 }
 
 
-    public function update(Job $job, Request $request)
+    public function update(Job $job, StoreJobRequest $request)
 {
-    $validated = $request->validate([
-        'employer.name' => 'required|string|max:255',
-        'employer.contactEmail' => 'required|email',
-        'employer.contactPhone' => 'required|string|max:255',
-        'job.title' => 'required|string|max:255',
-        'job.type' => 'required|string|max:255',
-        'job.description' => 'required|string',
-        'job.location' => 'required|string|max:255',
-        'job.salary' => 'nullable|string|max:255',
-    ]);
+    $validated = $request->validated();
 
     DB::transaction(function () use ($job, $validated) {
         
